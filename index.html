@@ -1,6 +1,21 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><title>TeamPulse</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
-<meta http-equiv="refresh" content="0;url=https://signal-dallas-tags-breakfast.trycloudflare.com/">
-<script>location.replace("https://signal-dallas-tags-breakfast.trycloudflare.com/" + location.hash)</script></head>
-<body style="background:#0A1120;color:#fff;font-family:system-ui,sans-serif;padding:2rem">
-<p>Redirection vers <a style="color:#FF4E64" href="https://signal-dallas-tags-breakfast.trycloudflare.com/">TeamPulse</a>…</p></body></html>
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"></head>
+<body style="background:#0A1120;color:#fff;font-family:system-ui,sans-serif;padding:2rem;line-height:1.5">
+<p id="m">Ouverture de <a style="color:#FF4E64" href="https://signal-dallas-tags-breakfast.trycloudflare.com/">TeamPulse</a>…</p>
+<script>
+(async function () {
+  var u = "https://signal-dallas-tags-breakfast.trycloudflare.com/";
+  try {
+    var c = new AbortController(); setTimeout(function () { c.abort(); }, 4000);
+    var j = await (await fetch("lien.json?t=" + Date.now(), { cache: "no-store", signal: c.signal })).json();
+    if (j && /^https:\/\/[a-z0-9-]+\.trycloudflare\.com$/.test(j.url)) u = j.url + "/";
+  } catch (e) {}
+  try {
+    await fetch(u + "api/sante?t=" + Date.now(), { mode: "no-cors", cache: "no-store" });
+    location.replace(u + location.hash);
+  } catch (e) {
+    document.getElementById("m").textContent = "TeamPulse redémarre (le serveur de l'IUT a été relancé). La page réessaie toute seule dans 30 secondes.";
+    setTimeout(function () { location.reload(); }, 30000);
+  }
+})();
+</script></body></html>
